@@ -1,0 +1,58 @@
+.editor-content {
+	display: flex;
+	flex: 1;
+	overflow-y: auto;
+
+	&__inner {
+		width: 100%;
+		max-width: 720px;
+		margin: 0 auto;
+		padding: var(--sp-2);
+
+		@include breakpoint('lg') {
+			padding: var(--sp-4);
+		}
+	}
+
+	&__cm {
+		width: 100%;
+
+		:global(.cm-scroller) {
+			overflow-y: auto;
+			padding: var(--sp-2) calc((100% - 720px) / 2);
+
+			@include breakpoint('lg') {
+				padding: var(--sp-4) calc((100% - 720px) / 2);
+			}
+		}
+
+		:global(.cm-scroller) {
+			overflow-y: auto;
+			padding: var(--sp-2);
+
+			@include breakpoint('lg') {
+				padding: var(--sp-4);
+			}
+		}
+
+		:global(.cm-content) {
+			caret-color: var(--clr-text);
+		}
+
+		:global(.cm-line) {
+			color: var(--clr-text);
+		}
+
+		:global(.cm-activeLine) {
+			background-color: transparent;
+		}
+
+		:global(.cm-cursor) {
+			border-left-color: var(--clr-text);
+		}
+
+		:global(.cm-selectionBackground) {
+			background-color: var(--clr-selection-bg) !important;
+		}
+	}
+}

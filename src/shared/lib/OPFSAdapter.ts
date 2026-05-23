@@ -53,7 +53,7 @@ export class OPFSAdapter implements IFileSystem {
 	async deleteFile(path: string): Promise<void> {
 		const { dirs, name } = this.parsePath(path)
 		const dir = await this.resolveDir(dirs)
-		await dir.removeEntry(name, { recursive: false })
+		await dir.removeEntry(name)
 	}
 
 	async renameFile(from: string, to: string): Promise<void> {

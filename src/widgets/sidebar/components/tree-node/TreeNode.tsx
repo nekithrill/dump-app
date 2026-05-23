@@ -34,7 +34,8 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 		const dir = node.path.includes('/')
 			? node.path.substring(0, node.path.lastIndexOf('/'))
 			: ''
-		const newPath = dir ? `${dir}/${newName}` : newName
+		const normalizedName = newName.endsWith('.md') ? newName : `${newName}.md`
+		const newPath = dir ? `${dir}/${normalizedName}` : normalizedName
 		await renameFile(node.path, newPath)
 	}
 

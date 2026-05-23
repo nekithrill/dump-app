@@ -1,0 +1,71 @@
+.editor-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	min-height: 4rem;
+
+	padding: 0 var(--sp-2);
+
+	border-bottom: var(--bw-thin) solid var(--clr-border);
+
+	@include breakpoint('lg') {
+		justify-content: flex-end;
+	}
+
+	&__modes {
+		display: flex;
+		align-items: center;
+		gap: var(--sp-1);
+	}
+
+	&__btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		width: 2rem;
+		height: 2rem;
+
+		color: var(--clr-text-accent);
+		border-radius: var(--br-sm);
+		cursor: pointer;
+
+		&:hover {
+			background-color: var(--clr-hover);
+			color: var(--clr-text);
+		}
+
+		&--active {
+			background-color: var(--clr-active);
+			color: var(--clr-text-active);
+		}
+
+		&--split {
+			display: none;
+
+			@include breakpoint('lg') {
+				display: flex;
+			}
+		}
+	}
+
+	&__back {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		color: var(--clr-text-accent);
+		border-radius: var(--br-sm);
+		cursor: pointer;
+
+		&:hover {
+			background-color: var(--clr-hover);
+			color: var(--clr-text);
+		}
+
+		@include breakpoint('lg') {
+			display: none;
+		}
+	}
+}

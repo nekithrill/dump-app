@@ -2,20 +2,20 @@
 // --[prefix]-[object]-[element]-[state?]
 
 [data-theme='dark'] {
-	--clr-text: ;
-	--clr-text-accent: ;
-	--clr-text-hover: ;
+	--clr-text: ivory;
+	--clr-text-accent: lime;
+	--clr-text-hover: green;
 
-	--clr-app-bg: seagreen;
+	--clr-app-bg: #292929;
 
-	--clr-selection-bg: ;
-	--clr-selection-text: ;
+	--clr-selection-bg: pink;
+	--clr-selection-text: magenta;
 
-	--clr-scrollbar-thumb: ;
-	--clr-scrollbar-thumb-hover: ;
-	--clr-scrollbar-track: ;
+	--clr-scrollbar-thumb: green;
+	--clr-scrollbar-thumb-hover: olive;
+	--clr-scrollbar-track: lime;
 
-	--clr-focus: ;
+	--clr-focus: cyan;
 
-	--clr-border: red;
+	--clr-border: #575757;
 }
