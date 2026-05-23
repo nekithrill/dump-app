@@ -1,0 +1,83 @@
+.tree-node {
+	&__row {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+
+		min-height: 36px;
+		padding-right: 8px;
+
+		color: var(--clr-text-accent);
+		border-radius: var(--br-sm);
+		cursor: pointer;
+		user-select: none;
+
+		@include breakpoint('lg') {
+			min-height: 28px;
+		}
+
+		&:hover {
+			background-color: var(--clr-hover);
+			color: var(--clr-text);
+		}
+
+		&--active {
+			background-color: var(--clr-active);
+			color: var(--clr-text-active);
+		}
+	}
+
+	&__icon {
+		display: flex;
+		align-items: center;
+
+		color: var(--clr-text-accent);
+	}
+
+	&__folder-icon,
+	&__file-icon {
+		flex-shrink: 0;
+
+		color: var(--clr-text-accent);
+	}
+
+	&__name {
+		flex: 1;
+		overflow: hidden;
+
+		font-size: var(--fs-default);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: 2px;
+
+		margin-left: auto;
+
+		button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			width: 44px;
+			height: 44px;
+
+			color: var(--clr-text-accent);
+			border-radius: var(--br-sm);
+			cursor: pointer;
+
+			@include breakpoint('lg') {
+				width: 20px;
+				height: 20px;
+			}
+
+			&:hover {
+				background-color: var(--clr-hover);
+				color: var(--clr-text);
+			}
+		}
+	}
+}

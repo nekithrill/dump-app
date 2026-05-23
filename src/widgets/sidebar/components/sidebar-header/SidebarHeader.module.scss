@@ -1,0 +1,50 @@
+.sidebar-header {
+	display: flex;
+	align-items: center;
+	// justify-content: space-between;
+
+	order: 1;
+
+	border-bottom: 1px solid var(--clr-border);
+
+	@include breakpoint('lg') {
+		min-height: 40px;
+		order: 0;
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: 2px;
+	}
+
+	&__btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		width: 44px;
+		height: 44px;
+
+		color: var(--clr-text-accent);
+		border-radius: var(--br-md);
+		cursor: pointer;
+
+		@include breakpoint('lg') {
+			width: 24px;
+			height: 24px;
+
+			border-radius: var(--br-sm);
+		}
+
+		&:hover:not(:disabled) {
+			background-color: var(--clr-hover);
+			color: var(--clr-text);
+		}
+
+		&:disabled {
+			opacity: 0.3;
+			cursor: not-allowed;
+		}
+	}
+}

@@ -2,6 +2,7 @@ import { AUTOSAVE_DELAY } from '@/shared/config/constants'
 import { getFS } from '@/shared/lib'
 import type { TreeNode } from '@/shared/types/fs'
 import { create } from 'zustand'
+import { useUIStore } from './uiStore'
 
 interface FSState {
 	tree: TreeNode[]
@@ -14,6 +15,7 @@ interface FSState {
 	openFile: (path: string) => Promise<void>
 	saveFile: (path: string, content: string) => Promise<void>
 	createFile: (path: string) => Promise<void>
+	createDir: (path: string) => Promise<void>
 	deleteFile: (path: string) => Promise<void>
 	renameFile: (from: string, to: string) => Promise<void>
 	setContent: (content: string) => void
@@ -40,6 +42,7 @@ export const useFSStore = create<FSState>((set, get) => ({
 		try {
 			const content = await fs.readFile(path)
 			set({ activeFile: path, activeContent: content, unsaved: false })
+			useUIStore.getState().setMobileView('editor')
 		} finally {
 			set({ loading: false })
 		}
@@ -59,6 +62,12 @@ export const useFSStore = create<FSState>((set, get) => ({
 		await fs.writeFile(path, '')
 		await get().loadTree()
 		await get().openFile(path)
+	},
+
+	createDir: async path => {
+		const fs = await getFS()
+		await fs.createDir(path)
+		await get().loadTree()
 	},
 
 	deleteFile: async path => {

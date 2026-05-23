@@ -1,0 +1,17 @@
+.sidebar-tree {
+	flex: 1;
+	overflow-y: auto;
+
+	padding: 4px 0;
+
+	&__empty {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		height: 100%;
+
+		color: var(--clr-text-accent);
+		font-size: var(--fs-default);
+	}
+}
