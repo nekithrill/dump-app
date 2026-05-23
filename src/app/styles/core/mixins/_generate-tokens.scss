@@ -1,0 +1,66 @@
+@use 'sass:map';
+@use 'sass:meta';
+@use '../functions/px-to-rem' as *;
+
+/// Generate CSS variables from design token maps
+/// Detects nested vs flat structure and optionally converts px to rem
+/// @param {Map} $tokens - Token configuration with groups
+
+@mixin generate-tokens($tokens) {
+	@each $group-name, $config in $tokens {
+		$map: map.get($config, 'map');
+		$prefix: map.get($config, 'prefix');
+		$transform: map.get($config, 'transform');
+
+		@if not $map {
+			@error "generate-tokens: Group '#{$group-name}' missing 'map' key";
+		}
+
+		@if not $prefix {
+			@error "generate-tokens: Group '#{$group-name}' missing 'prefix' key";
+		}
+
+		$is-nested: _is-nested-map($map);
+
+		@if $is-nested {
+			@each $palette-name, $palette in $map {
+				@if meta.type-of($palette) == 'map' {
+					@each $shade, $value in $palette {
+						$final-value: $value;
+
+						@if $transform == 'rem' {
+							$final-value: px-to-rem($value);
+						}
+
+						--#{$prefix}-#{$palette-name}-#{$shade}: #{$final-value};
+					}
+				}
+			}
+		} @else {
+			@each $key, $value in $map {
+				$final-value: $value;
+
+				@if $transform == 'rem' and $key != 'default' {
+					$final-value: px-to-rem($value);
+				}
+
+				--#{$prefix}-#{$key}: #{$final-value};
+			}
+		}
+	}
+}
+
+/// Check if map contains nested maps (first value is a map)
+/// @access private
+
+@function _is-nested-map($map) {
+	@if meta.type-of($map) != 'map' {
+		@return false;
+	}
+
+	@each $key, $value in $map {
+		@return meta.type-of($value) == 'map';
+	}
+
+	@return false;
+}

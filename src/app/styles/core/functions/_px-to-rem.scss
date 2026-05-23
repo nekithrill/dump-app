@@ -1,0 +1,39 @@
+@use 'sass:math';
+@use 'sass:meta';
+@use 'sass:list';
+@use '../../tokens/typography' as *;
+
+/// Converts pixel values to rem units
+/// @param {Number | List} $value - Value in px, list of values, or zero
+/// @param {Number} $base - Base font-size in pixels (default: 16)
+/// @return {Number | List} - Corresponding rem value(s)
+
+@function px-to-rem($value, $base: $base-font-size) {
+	@if meta.type-of($value) == 'number' {
+		@if $value == 0 {
+			@return 0;
+		}
+
+		$unit: math.unit($value);
+
+		@if $unit == 'px' {
+			@if math.abs($value) >= 5000px {
+				@return $value;
+			}
+
+			@return math.div($value, $base) * 1rem;
+		}
+
+		@return $value;
+	}
+
+	@if meta.type-of($value) == 'list' {
+		$result: ();
+		@each $item in $value {
+			$result: list.append($result, px-to-rem($item, $base), 'space');
+		}
+		@return $result;
+	}
+
+	@return $value;
+}

@@ -1,0 +1,109 @@
+// ℹ️ Box sizing - use border-box for predictable sizing
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+// ℹ️ Remove default margins/padding for consistent starting point
+* {
+	margin: 0;
+	padding: 0;
+}
+
+// ℹ️ Media - responsive by default, maintain aspect ratio
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+// ℹ️ Form elements - inherit typography for consistency
+input,
+button,
+textarea,
+select {
+	font: inherit;
+	color: inherit;
+	background: transparent;
+	line-height: var(--lh-compact, 1);
+}
+
+textarea {
+	line-height: var(--lh-normal, 1.5);
+	resize: vertical;
+	overflow: auto;
+}
+
+// ℹ️ Lists - remove default styles (add back in content areas if needed)
+ol,
+ul {
+	list-style: none;
+}
+
+// ℹ️ Headings - reset to use design tokens instead
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: inherit;
+	font-weight: inherit;
+}
+
+// ℹ️ Links - remove underline, inherit color
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+// ℹ️ Buttons - clean slate for custom styling
+button {
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	font: inherit;
+	color: inherit;
+}
+
+// ℹ️ Tables - consistent rendering across browsers
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+// ℹ️ Quotes - remove default quotation marks
+blockquote,
+q {
+	quotes: none;
+}
+
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
+	content: '';
+	content: none;
+}
+
+// ℹ️ Text overflow - prevent long words from breaking layout
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
+
+// ℹ️ Root stacking context - prevents z-index issues
+#root,
+#__next {
+	isolation: isolate;
+}

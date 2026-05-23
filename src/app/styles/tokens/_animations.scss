@@ -1,0 +1,23 @@
+// Duration, easing, and delay tokens
+
+$duration: (
+	faster: 100ms,
+	fast: 200ms,
+	normal: 300ms,
+	slow: 500ms,
+	slower: 700ms
+);
+
+$easing: (
+	linear: linear,
+	ease-in: cubic-bezier(0.4, 0, 1, 1),
+	ease-out: cubic-bezier(0, 0, 0.2, 1),
+	ease-in-out: cubic-bezier(0.4, 0, 0.2, 1),
+	bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55)
+);
+
+$delay: (
+	short: 50ms,
+	medium: 100ms,
+	long: 200ms
+);

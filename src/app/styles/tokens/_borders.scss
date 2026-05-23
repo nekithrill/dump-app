@@ -1,0 +1,19 @@
+// Border tokens
+// ℹ️ --br-pill For pill-shaped buttons and tags
+// ℹ️ --br-full For circular avatars and icons
+
+$border-radius: (
+	xs: 2px,
+	sm: 4px,
+	md: 6px,
+	lg: 10px,
+	xl: 14px,
+	pill: 9999px,
+	full: 50%
+);
+
+$border-width: (
+	thin: 1px,
+	normal: 2px,
+	thick: 4px
+);

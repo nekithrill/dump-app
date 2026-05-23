@@ -1,0 +1,22 @@
+// ℹ️ Show outline ONLY for keyboard navigation
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a:focus-visible,
+[role='button']:focus-visible,
+[tabindex]:focus-visible {
+	outline: var(--bw-normal, 2px) solid var(--clr-focus, red);
+	outline-offset: 0;
+}
+
+// ℹ️ Hide outline for mouse/touch users (accessibility maintained for keyboard)
+input:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+[role='button']:focus:not(:focus-visible),
+[tabindex]:focus:not(:focus-visible) {
+	outline: none;
+}

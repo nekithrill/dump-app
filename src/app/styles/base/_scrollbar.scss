@@ -1,0 +1,25 @@
+* {
+	// Firefox
+	@supports (scrollbar-width: thin) and (not selector(::-webkit-scrollbar)) {
+		scrollbar-width: thin;
+		scrollbar-color: var(--clr-scrollbar-thumb, red)
+			var(--clr-scrollbar-track, maroon);
+	}
+
+	// Webkit (Chrome, Safari, Edge)
+	&::-webkit-scrollbar {
+		width: 0.5rem;
+
+		&-thumb {
+			background-color: var(--clr-scrollbar-thumb, red);
+
+			&:hover {
+				background-color: var(--clr-scrollbar-thumb-hover, tomato);
+			}
+		}
+
+		&-track {
+			background-color: var(--clr-scrollbar-track, maroon);
+		}
+	}
+}

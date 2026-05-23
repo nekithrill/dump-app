@@ -1,0 +1,21 @@
+// ℹ️ Assign token values to semantic CSS variables
+// --[prefix]-[object]-[element]-[state?]
+
+[data-theme='dark'] {
+	--clr-text: ;
+	--clr-text-accent: ;
+	--clr-text-active: ;
+	--clr-text-hover: ;
+
+	--clr-body-bg: green;
+
+	--clr-selection-bg: ;
+	--clr-selection-text: ;
+
+	--clr-focus: ;
+
+	--clr-scrollbar-thumb: ;
+	--clr-scrollbar-thumb-hover: ;
+	--clr-scrollbar-track: ;
+	--clr-scrollbar-track-hover: ;
+}

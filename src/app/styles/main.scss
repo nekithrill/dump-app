@@ -1,0 +1,31 @@
+// Import order matters: tokens → core → base → themes
+
+// 1. Tokens
+@use './tokens/animations' as *;
+@use './tokens/breakpoints' as *;
+@use './tokens/colors' as *;
+@use './tokens/borders' as *;
+@use './tokens/shadows' as *;
+@use './tokens/spacing' as *;
+@use './tokens/typography' as *;
+@use './tokens/z-index' as *;
+
+// 2. Core (mixins & functions)
+@use './core/functions/px-to-rem' as *;
+@use './core/mixins/breakpoint' as *;
+@use './core/mixins/generate-tokens' as *;
+
+// 3. Config
+@use './config/variables' as *;
+
+// 4. Base styles
+@use './base/reset' as *;
+@use './base/fonts' as *;
+@use './base/globals' as *;
+@use './base/focus' as *;
+@use './base/scrollbar' as *;
+@use './base/selection' as *;
+
+// 5. Themes
+@use './themes/light' as *;
+@use './themes/dark' as *;

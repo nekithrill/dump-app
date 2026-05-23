@@ -1,0 +1,78 @@
+@use '../tokens/colors' as *;
+@use '../tokens/typography' as *;
+@use '../tokens/spacing' as *;
+@use '../tokens/borders' as *;
+@use '../tokens/shadows' as *;
+@use '../tokens/animations' as *;
+@use '../tokens/z-index' as *;
+@use '../core/mixins/generate-tokens' as *;
+
+// Token configuration for CSS variable generation
+// Each group requires 'map' and 'prefix'
+// Optional 'transform: rem' converts px values to rem
+
+$base-tokens: (
+	colors: (
+		map: $all-colors,
+		prefix: 'clr'
+	),
+	font-families: (
+		map: $font-families,
+		prefix: 'ff'
+	),
+	font-weights: (
+		map: $font-weights,
+		prefix: 'fw'
+	),
+	font-sizes: (
+		map: $font-sizes,
+		prefix: 'fs',
+		transform: 'rem'
+	),
+	line-heights: (
+		map: $line-heights,
+		prefix: 'lh'
+	),
+	letter-spacings: (
+		map: $letter-spacings,
+		prefix: 'ls'
+	),
+	spacing: (
+		map: $spacing,
+		prefix: 'sp',
+		transform: 'rem'
+	),
+	border-radius: (
+		map: $border-radius,
+		prefix: 'br',
+		transform: 'rem'
+	),
+	border-width: (
+		map: $border-width,
+		prefix: 'bw'
+	),
+	shadows: (
+		map: $shadows,
+		prefix: 'shadow'
+	),
+	duration: (
+		map: $duration,
+		prefix: 'dur'
+	),
+	easing: (
+		map: $easing,
+		prefix: 'tf'
+	),
+	delay: (
+		map: $delay,
+		prefix: 'delay'
+	),
+	z-index: (
+		map: $z-index,
+		prefix: 'z'
+	)
+);
+
+:root {
+	@include generate-tokens($base-tokens);
+}

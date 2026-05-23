@@ -1,0 +1,24 @@
+@use 'sass:map';
+@use '../../tokens/breakpoints' as *;
+
+/// Generate responsive media queries
+/// @param {String} $size - Breakpoint key from $breakpoints
+/// @param {Boolean} $min-width - true for mobile-first, false for desktop-first
+
+@mixin breakpoint($size, $min-width: true) {
+	$query: map.get($breakpoints, $size);
+
+	@if not $query {
+		@error "⚠️ Breakpoint '#{$size}' not found. Available: #{map.keys($breakpoints)}";
+	}
+
+	@if $min-width {
+		@media (min-width: $query) {
+			@content;
+		}
+	} @else {
+		@media (max-width: $query) {
+			@content;
+		}
+	}
+}
