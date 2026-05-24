@@ -1,4 +1,10 @@
 .tree-node {
+	&--over {
+		border-radius: var(--br-sm);
+		outline: 1px dashed gold;
+		outline-offset: -1px;
+	}
+
 	&__row {
 		display: flex;
 		align-items: center;

@@ -1,6 +1,7 @@
 import { useNodeActions } from '@/shared/hooks/useNodeActions'
 import { useFSStore } from '@/shared/store/fsStore'
 import type { TreeNode as TreeNodeType } from '@/shared/types/fs'
+import { useDraggable, useDroppable } from '@dnd-kit/core'
 import {
 	ChevronDown,
 	ChevronRight,
@@ -26,20 +27,38 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 
 	const activeFile = useFSStore(s => s.activeFile)
 	const openFile = useFSStore(s => s.openFile)
-	const deleteFile = useFSStore(s => s.deleteFile)
-	const renameFile = useFSStore(s => s.renameFile)
-
 	const isActive = node.type === 'file' && node.path === activeFile
+
+	const {
+		attributes,
+		listeners,
+		setNodeRef: setDragRef,
+		isDragging
+	} = useDraggable({ id: node.path })
+
+	const { setNodeRef: setDropRef, isOver } = useDroppable({
+		id: node.path,
+		disabled: node.type === 'file'
+	})
 
 	if (node.type === 'dir') {
 		return (
-			<div className={styles['tree-node']}>
+			<div
+				ref={node => {
+					setDragRef(node)
+					setDropRef(node)
+				}}
+				className={`${styles['tree-node']} ${isOver ? styles['tree-node--over'] : ''}`}
+				style={{ opacity: isDragging ? 0.5 : 1 }}
+			>
 				<div
 					className={styles['tree-node__row']}
 					style={{ paddingLeft: `${depth * 12 + 8}px` }}
 					onClick={() => setExpanded(prev => !prev)}
 					onMouseEnter={() => setHovered(true)}
 					onMouseLeave={() => setHovered(false)}
+					{...attributes}
+					{...listeners}
 				>
 					<span className={styles['tree-node__icon']}>
 						{expanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
@@ -96,11 +115,17 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 
 	return (
 		<div
+			ref={setDragRef}
 			className={`${styles['tree-node__row']} ${isActive ? styles['tree-node__row--active'] : ''}`}
-			style={{ paddingLeft: `${depth * 12 + 8}px` }}
+			style={{
+				paddingLeft: `${depth * 12 + 8}px`,
+				opacity: isDragging ? 0.5 : 1
+			}}
 			onClick={() => openFile(node.path)}
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}
+			{...attributes}
+			{...listeners}
 		>
 			<File size={16} className={styles['tree-node__file-icon']} />
 			<span className={styles['tree-node__name']}>{node.name}</span>

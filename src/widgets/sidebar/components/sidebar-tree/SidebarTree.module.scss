@@ -4,6 +4,12 @@
 
 	padding: 4px 0;
 
+	&--over {
+		outline: 1px dashed gold;
+		outline-offset: -2px;
+		border-radius: var(--br-sm);
+	}
+
 	&__empty {
 		display: flex;
 		align-items: center;
