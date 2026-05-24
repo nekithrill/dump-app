@@ -1,10 +1,10 @@
-// shared/hooks/useNodeActions.ts
 import { validateName } from '@/shared/lib/validate'
 import { useFSStore } from '@/shared/store/fsStore'
 import type { TreeNode } from '@/shared/types/fs'
 
 export const useNodeActions = (node: TreeNode) => {
 	const createFile = useFSStore(s => s.createFile)
+	const createDir = useFSStore(s => s.createDir)
 	const deleteFile = useFSStore(s => s.deleteFile)
 	const renameFile = useFSStore(s => s.renameFile)
 
@@ -17,6 +17,17 @@ export const useNodeActions = (node: TreeNode) => {
 			return
 		}
 		await createFile(`${node.path}/${result.normalizedName!}`)
+	}
+
+	const handleCreateDir = async () => {
+		const name = prompt('Имя папки:')
+		if (!name) return
+		const result = validateName(name, 'dir')
+		if (!result.valid) {
+			alert(result.error)
+			return
+		}
+		await createDir(`${node.path}/${result.normalizedName!}`)
 	}
 
 	const handleRename = async () => {
@@ -41,5 +52,5 @@ export const useNodeActions = (node: TreeNode) => {
 		await deleteFile(node.path)
 	}
 
-	return { handleCreateFile, handleRename, handleDelete }
+	return { handleCreateFile, handleRename, handleDelete, handleCreateDir }
 }

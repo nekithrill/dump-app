@@ -1,18 +1,17 @@
 import { useNodeActions } from '@/shared/hooks/useNodeActions'
 import { useFSStore } from '@/shared/store/fsStore'
 import type { TreeNode as TreeNodeType } from '@/shared/types/fs'
+import { ContextMenu, type ContextMenuItem } from '@/shared/ui/context-menu'
 import { useDraggable, useDroppable } from '@dnd-kit/core'
 import {
 	ChevronDown,
 	ChevronRight,
 	File,
-	FilePlus,
 	Folder,
-	FolderOpen,
-	Pencil,
-	Trash2
+	FolderOpen
 } from 'lucide-react'
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import styles from './TreeNode.module.scss'
 
 interface TreeNodeProps {
@@ -21,9 +20,13 @@ interface TreeNodeProps {
 }
 
 export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
-	const { handleCreateFile, handleRename, handleDelete } = useNodeActions(node)
+	const { handleCreateFile, handleCreateDir, handleRename, handleDelete } =
+		useNodeActions(node)
 	const [expanded, setExpanded] = useState(true)
-	const [hovered, setHovered] = useState(false)
+	const [contextMenu, setContextMenu] = useState<{
+		x: number
+		y: number
+	} | null>(null)
 
 	const activeFile = useFSStore(s => s.activeFile)
 	const openFile = useFSStore(s => s.openFile)
@@ -41,6 +44,27 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 		disabled: node.type === 'file'
 	})
 
+	const handleContextMenu = (e: React.MouseEvent) => {
+		e.preventDefault()
+		e.stopPropagation()
+		setContextMenu({ x: e.clientX, y: e.clientY })
+	}
+
+	const dirItems: ContextMenuItem[] = [
+		{ label: 'New file', onClick: handleCreateFile },
+		{ label: 'New folder', onClick: handleCreateDir },
+		{ divider: true, label: '', onClick: () => {} },
+		{ label: 'Rename', onClick: handleRename },
+		{ divider: true, label: '', onClick: () => {} },
+		{ label: 'Delete', onClick: handleDelete, danger: true }
+	]
+
+	const fileItems: ContextMenuItem[] = [
+		{ label: 'Rename', onClick: handleRename },
+		{ divider: true, label: '', onClick: () => {} },
+		{ label: 'Delete', onClick: handleDelete, danger: true }
+	]
+
 	if (node.type === 'dir') {
 		return (
 			<div
@@ -55,8 +79,7 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 					className={styles['tree-node__row']}
 					style={{ paddingLeft: `${depth * 12 + 8}px` }}
 					onClick={() => setExpanded(prev => !prev)}
-					onMouseEnter={() => setHovered(true)}
-					onMouseLeave={() => setHovered(false)}
+					onContextMenu={handleContextMenu}
 					{...attributes}
 					{...listeners}
 				>
@@ -74,82 +97,55 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 					)}
 
 					<span className={styles['tree-node__name']}>{node.name}</span>
-
-					{hovered && (
-						<div className={styles['tree-node__actions']}>
-							<button
-								onClick={e => {
-									e.stopPropagation()
-									handleCreateFile()
-								}}
-							>
-								<FilePlus size={16} />
-							</button>
-							<button
-								onClick={e => {
-									e.stopPropagation()
-									handleRename()
-								}}
-							>
-								<Pencil size={16} />
-							</button>
-							<button
-								onClick={e => {
-									e.stopPropagation()
-									handleDelete()
-								}}
-							>
-								<Trash2 size={16} />
-							</button>
-						</div>
-					)}
 				</div>
 
 				{expanded &&
 					node.children.map(child => (
 						<TreeNode key={child.path} node={child} depth={depth + 1} />
 					))}
+
+				{contextMenu &&
+					createPortal(
+						<ContextMenu
+							x={contextMenu.x}
+							y={contextMenu.y}
+							items={dirItems}
+							onClose={() => setContextMenu(null)}
+						/>,
+						document.body
+					)}
 			</div>
 		)
 	}
 
 	return (
-		<div
-			ref={setDragRef}
-			className={`${styles['tree-node__row']} ${isActive ? styles['tree-node__row--active'] : ''}`}
-			style={{
-				paddingLeft: `${depth * 12 + 8}px`,
-				opacity: isDragging ? 0.5 : 1
-			}}
-			onClick={() => openFile(node.path)}
-			onMouseEnter={() => setHovered(true)}
-			onMouseLeave={() => setHovered(false)}
-			{...attributes}
-			{...listeners}
-		>
-			<File size={16} className={styles['tree-node__file-icon']} />
-			<span className={styles['tree-node__name']}>{node.name}</span>
+		<>
+			<div
+				ref={setDragRef}
+				className={`${styles['tree-node__row']} ${isActive ? styles['tree-node__row--active'] : ''}`}
+				style={{
+					paddingLeft: `${depth * 12 + 8}px`,
+					opacity: isDragging ? 0.5 : 1
+				}}
+				onClick={() => openFile(node.path)}
+				onContextMenu={handleContextMenu}
+				{...attributes}
+				{...listeners}
+			>
+				<File size={16} className={styles['tree-node__file-icon']} />
+				<span className={styles['tree-node__name']}>{node.name}</span>
+			</div>
 
-			{hovered && (
-				<div className={styles['tree-node__actions']}>
-					<button
-						onClick={e => {
-							e.stopPropagation()
-							handleRename()
-						}}
-					>
-						<Pencil size={16} />
-					</button>
-					<button
-						onClick={e => {
-							e.stopPropagation()
-							handleDelete()
-						}}
-					>
-						<Trash2 size={16} />
-					</button>
-				</div>
-			)}
-		</div>
+			{contextMenu &&
+				createPortal(
+					<ContextMenu
+						x={contextMenu.x}
+						y={contextMenu.y}
+						items={fileItems}
+						onClose={() => setContextMenu(null)}
+					/>,
+					document.body
+				)}
+		</>
 	)
 }
