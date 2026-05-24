@@ -1,9 +1,11 @@
+import { useNodeActions } from '@/shared/hooks/useNodeActions'
 import { useFSStore } from '@/shared/store/fsStore'
 import type { TreeNode as TreeNodeType } from '@/shared/types/fs'
 import {
 	ChevronDown,
 	ChevronRight,
 	File,
+	FilePlus,
 	Folder,
 	FolderOpen,
 	Pencil,
@@ -18,6 +20,7 @@ interface TreeNodeProps {
 }
 
 export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
+	const { handleCreateFile, handleRename, handleDelete } = useNodeActions(node)
 	const [expanded, setExpanded] = useState(true)
 	const [hovered, setHovered] = useState(false)
 
@@ -27,22 +30,6 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 	const renameFile = useFSStore(s => s.renameFile)
 
 	const isActive = node.type === 'file' && node.path === activeFile
-
-	const handleRename = async () => {
-		const newName = prompt('Новое имя:', node.name)
-		if (!newName || newName === node.name) return
-		const dir = node.path.includes('/')
-			? node.path.substring(0, node.path.lastIndexOf('/'))
-			: ''
-		const normalizedName = newName.endsWith('.md') ? newName : `${newName}.md`
-		const newPath = dir ? `${dir}/${normalizedName}` : normalizedName
-		await renameFile(node.path, newPath)
-	}
-
-	const handleDelete = async () => {
-		if (!confirm(`Удалить "${node.name}"?`)) return
-		await deleteFile(node.path)
-	}
 
 	if (node.type === 'dir') {
 		return (
@@ -55,16 +42,16 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 					onMouseLeave={() => setHovered(false)}
 				>
 					<span className={styles['tree-node__icon']}>
-						{expanded ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+						{expanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
 					</span>
 
 					{expanded ? (
 						<FolderOpen
-							size={14}
+							size={16}
 							className={styles['tree-node__folder-icon']}
 						/>
 					) : (
-						<Folder size={14} className={styles['tree-node__folder-icon']} />
+						<Folder size={16} className={styles['tree-node__folder-icon']} />
 					)}
 
 					<span className={styles['tree-node__name']}>{node.name}</span>
@@ -74,10 +61,18 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 							<button
 								onClick={e => {
 									e.stopPropagation()
+									handleCreateFile()
+								}}
+							>
+								<FilePlus size={16} />
+							</button>
+							<button
+								onClick={e => {
+									e.stopPropagation()
 									handleRename()
 								}}
 							>
-								<Pencil size={12} />
+								<Pencil size={16} />
 							</button>
 							<button
 								onClick={e => {
@@ -85,7 +80,7 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 									handleDelete()
 								}}
 							>
-								<Trash2 size={12} />
+								<Trash2 size={16} />
 							</button>
 						</div>
 					)}
@@ -107,7 +102,7 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}
 		>
-			<File size={14} className={styles['tree-node__file-icon']} />
+			<File size={16} className={styles['tree-node__file-icon']} />
 			<span className={styles['tree-node__name']}>{node.name}</span>
 
 			{hovered && (
@@ -118,7 +113,7 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 							handleRename()
 						}}
 					>
-						<Pencil size={12} />
+						<Pencil size={16} />
 					</button>
 					<button
 						onClick={e => {
@@ -126,7 +121,7 @@ export const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
 							handleDelete()
 						}}
 					>
-						<Trash2 size={12} />
+						<Trash2 size={16} />
 					</button>
 				</div>
 			)}

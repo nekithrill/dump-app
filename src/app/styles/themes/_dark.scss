@@ -4,6 +4,7 @@
 [data-theme='dark'] {
 	--clr-text: ivory;
 	--clr-text-accent: lime;
+	--clr-text-active: seagreen;
 	--clr-text-hover: green;
 
 	--clr-app-bg: #292929;
@@ -18,4 +19,16 @@
 	--clr-focus: cyan;
 
 	--clr-border: #575757;
+
+	--clr-sidebar-bg: ;
+	--clr-sidebar-actions-text: ;
+	--clr-sidebar-actions-text-hover: ;
+	--clr-sidebar-actions-bg: ;
+	--clr-sidebar-actions-bg-hover: ;
+	--clr-sidebar-node-text: ;
+	--clr-sidebar-node-text-hover: ;
+	--clr-sidebar-node-text-active: ;
+	--clr-sidebar-node-bg: ;
+	--clr-sidebar-node-bg-hover: ;
+	--clr-sidebar-node-bg-active: ;
 }

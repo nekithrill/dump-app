@@ -1,21 +1,21 @@
 .sidebar-header {
 	display: flex;
 	align-items: center;
-	// justify-content: space-between;
+	justify-content: center;
 
 	order: 1;
 
 	border-bottom: 1px solid var(--clr-border);
 
 	@include breakpoint('lg') {
-		min-height: 40px;
+		min-height: 4rem;
 		order: 0;
 	}
 
 	&__actions {
 		display: flex;
 		align-items: center;
-		gap: 2px;
+		gap: var(--sp-1);
 	}
 
 	&__btn {
@@ -23,22 +23,15 @@
 		align-items: center;
 		justify-content: center;
 
-		width: 44px;
-		height: 44px;
+		width: 2rem;
+		height: 2rem;
 
+		background-color: firebrick;
 		color: var(--clr-text-accent);
-		border-radius: var(--br-md);
 		cursor: pointer;
 
-		@include breakpoint('lg') {
-			width: 24px;
-			height: 24px;
-
-			border-radius: var(--br-sm);
-		}
-
 		&:hover:not(:disabled) {
-			background-color: var(--clr-hover);
+			background-color: tomato;
 			color: var(--clr-text);
 		}
 

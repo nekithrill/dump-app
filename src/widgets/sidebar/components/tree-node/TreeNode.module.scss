@@ -17,13 +17,13 @@
 		}
 
 		&:hover {
-			background-color: var(--clr-hover);
+			background-color: var(--clr-text-hover);
 			color: var(--clr-text);
 		}
 
 		&--active {
-			background-color: var(--clr-active);
-			color: var(--clr-text-active);
+			background-color: var(--clr-text-active);
+			color: var(--clr-text-accent);
 		}
 	}
 
@@ -31,14 +31,17 @@
 		display: flex;
 		align-items: center;
 
-		color: var(--clr-text-accent);
+		color: ivory;
 	}
 
 	&__folder-icon,
 	&__file-icon {
 		flex-shrink: 0;
+		color: ivory;
 
-		color: var(--clr-text-accent);
+		&:hover {
+			color: magenta;
+		}
 	}
 
 	&__name {
@@ -62,9 +65,10 @@
 			align-items: center;
 			justify-content: center;
 
-			width: 44px;
-			height: 44px;
+			width: 2rem;
+			height: 2rem;
 
+			background-color: maroon;
 			color: var(--clr-text-accent);
 			border-radius: var(--br-sm);
 			cursor: pointer;
@@ -75,7 +79,7 @@
 			}
 
 			&:hover {
-				background-color: var(--clr-hover);
+				background-color: red;
 				color: var(--clr-text);
 			}
 		}

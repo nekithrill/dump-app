@@ -7,8 +7,8 @@
 	overflow: hidden;
 
 	@include breakpoint('lg') {
-		width: 220px;
+		width: 20rem;
 		min-width: 220px;
-		border: var(--bw-normal) solid var(--clr-border);
+		border: var(--bw-thin) solid var(--clr-border);
 	}
 }

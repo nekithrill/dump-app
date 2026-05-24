@@ -2,13 +2,11 @@
 	display: flex;
 	align-items: center;
 
-	padding: 0 8px;
-	min-height: 56px;
+	min-height: 4rem;
 
-	border-top: 1px solid var(--clr-border);
+	border-top: var(--bw-thin) solid var(--clr-border);
 
 	@include breakpoint('lg') {
-		min-height: 40px;
 	}
 
 	&__btn {
@@ -16,8 +14,8 @@
 		align-items: center;
 		justify-content: center;
 
-		width: 44px;
-		height: 44px;
+		width: 2rem;
+		height: 2rem;
 
 		color: var(--clr-text-accent);
 		border-radius: var(--br-md);
@@ -31,7 +29,7 @@
 		}
 
 		&:hover {
-			background-color: var(--clr-hover);
+			background-color: gold;
 			color: var(--clr-text);
 		}
 	}
