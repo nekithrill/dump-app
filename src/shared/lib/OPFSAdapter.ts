@@ -53,13 +53,53 @@ export class OPFSAdapter implements IFileSystem {
 	async deleteFile(path: string): Promise<void> {
 		const { dirs, name } = this.parsePath(path)
 		const dir = await this.resolveDir(dirs)
-		await dir.removeEntry(name)
+		await dir.removeEntry(name, { recursive: true })
 	}
 
 	async renameFile(from: string, to: string): Promise<void> {
-		const content = await this.readFile(from)
-		await this.writeFile(to, content)
+		await this.copyEntry(from, to)
 		await this.deleteFile(from)
+	}
+
+	private async copyEntry(from: string, to: string): Promise<void> {
+		const { dirs, name } = this.parsePath(from)
+		const fromDir = await this.resolveDir(dirs)
+
+		let isFile = false
+		for await (const [entryName, handle] of fromDir.entries()) {
+			if (entryName === name) {
+				isFile = handle.kind === 'file'
+				break
+			}
+		}
+
+		if (isFile) {
+			const fileHandle = await fromDir.getFileHandle(name)
+			const file = await fileHandle.getFile()
+			const content = await file.text()
+			await this.writeFile(to, content)
+		} else {
+			const fromParts = from.split('/').filter(Boolean)
+			const fromDirHandle = await this.resolveDir(fromParts)
+			await this.copyDir(fromDirHandle, to)
+		}
+	}
+
+	private async copyDir(
+		dir: FileSystemDirectoryHandle,
+		toPath: string
+	): Promise<void> {
+		await this.createDir(toPath)
+		for await (const [name, handle] of dir.entries()) {
+			const childPath = `${toPath}/${name}`
+			if (handle.kind === 'directory') {
+				await this.copyDir(handle as FileSystemDirectoryHandle, childPath)
+			} else {
+				const file = await (handle as FileSystemFileHandle).getFile()
+				const content = await file.text()
+				await this.writeFile(childPath, content)
+			}
+		}
 	}
 
 	async createDir(path: string): Promise<void> {
@@ -71,8 +111,13 @@ export class OPFSAdapter implements IFileSystem {
 		try {
 			const { dirs, name } = this.parsePath(path)
 			const dir = await this.resolveDir(dirs)
-			await dir.getFileHandle(name)
-			return true
+			try {
+				await dir.getFileHandle(name)
+				return true
+			} catch {
+				await dir.getDirectoryHandle(name)
+				return true
+			}
 		} catch {
 			return false
 		}
